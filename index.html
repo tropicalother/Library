@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <button id="addBookButton" onclick="showDialog()">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><title>book-plus-multiple</title><path d="M13.09 20H5V6H3V20A2 2 0 0 0 5 22H13.81A5.5 5.5 0 0 1 13.09 20M19 2H14V7L12 5.5L10 7V2H9A2 2 0 0 0 7 4V16A2 2 0 0 0 9 18H13.09A6 6 0 0 1 21 13.34V4A2 2 0 0 0 19 2M20 15V18H23V20H20V23H18V20H15V18H18V15Z" /></svg>
+        Add Another Book
+    </button>
+
+    <dialog id="addBookDialog">
+        <form>
+            <label>Book Name</label>
+            <input type="text" id="name" value="Oliver Twist">
+            <label>Author</label>
+            <input type="text" id="author" value="Charles Dickens">
+            <label>Pages</label>
+            <input type="text" id="pages" value="300">
+            <label>Read</label>
+            <input type="checkbox" id="read" checked="true">
+
+            <button onclick="submitForm(event)">Submit</button>
+
+            </form>
+    </dialog>
+
+    <div id="libraryList">
+
+    </div>
+
+
+
+
+</body>
+
+<script>
+    const toggleDialog = document.getElementById("addBookDialog")
+    const libraryList = document.getElementById("libraryList")
+
+    const nameSub = document.getElementById("name")
+    const authorSub = document.getElementById("author")
+    const pagesSub = document.getElementById("pages")
+    const readSub = document.getElementById("read")
+
+    const darkRandomInt = 128
+
+    const myLibrary = []
+
+
+    function submitForm(event)
+    {
+        event.preventDefault()
+
+
+        let tempBook = new Book(nameSub.value, authorSub.value, pagesSub.value, readSub.checked)
+        myLibrary.push(tempBook)
+        console.log(myLibrary[0].toString())
+
+        let newDiv = document.createElement('div')
+                newDiv.classList.add('book')
+                newDiv.classList.add('fly-in')
+                let printTitle = document.createElement('h1')
+                let printAuthor = document.createElement('h3')
+                let printPages = document.createElement('h3')
+                let printRead = document.createElement('h3')
+                printTitle.textContent = tempBook.title
+                printAuthor.textContent = tempBook.author
+                printPages.textContent = tempBook.pages
+                printRead.textContent = tempBook.read
+
+
+                
+                const readButton = document.createElement('button')
+                readButton.textContent = 'Change read status'
+                readButton.addEventListener('click', () =>  {
+                    if (printRead.textContent == 'true')
+                        printRead.textContent = 'false'
+                    else
+                        printRead.textContent = 'true'
+                }
+                )
+
+                const removeButton = document.createElement('button')
+                removeButton.textContent = 'Remove'
+                removeButton.addEventListener('click', () =>  {
+                    newDiv.remove()
+                }
+                )
+
+                const red = Math.floor(Math.random() * 96);
+                const green = Math.floor(Math.random() * 96);
+                const blue = Math.floor(Math.random() * 96);
+
+                const dRed = red/2
+                const dGreen = green/2
+                const dBlue = blue/2
+
+                const newColor = `rgb(${red}, ${green}, ${blue})`
+                const darkColor = `rgb(${dRed}, ${dGreen}, ${dBlue})`
+
+                newDiv.style.backgroundColor =  newColor
+                newDiv.style.boxShadow = '10px 10px 10px ' + darkColor
+
+                newDiv.append(printTitle, printAuthor, printPages, printRead, readButton, removeButton)
+
+                libraryList.append(newDiv) 
+        
+        toggleDialog.classList.toggle('show')
+    }
+
+
+    function Book(title, author, pages, read)
+        {
+            this.title = title
+            this.author = author
+            this.pages = pages
+            this.read = read
+
+            this.toString = function()  {
+                return(this.title + ', ' + this.author + ', ' + this.pages + ', Have I read it?: ' + this.read)
+            }
+        }
+
+
+    
+
+    function updateLibrary()    {
+        
+        while (libraryList.firstChild)
+                    libraryList.removeChild(libraryList.firstChild)
+
+        for (let i=0; i<myLibrary.length; i++)
+            {
+                let newDiv = document.createElement('div')
+                newDiv.classList.add('book')
+                newDiv.classList.add('fly-in')
+                let newh1 = document.createElement('h1')
+                newh1.textContent = myLibrary[i].title
+
+                
+                newDiv.append(newh1)
+
+                console.log(newh1.textContent)
+                libraryList.append(newDiv)
+            }
+    }
+
+    function showDialog()
+    {
+        toggleDialog.classList.add('show')
+    }
+
+
+</script>
+
+</html>

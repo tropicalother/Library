@@ -1,0 +1,71 @@
+body    {
+    background-image: url("Rainbow_at_Big_Island_Hawaii.jpg");
+    background-size: cover;
+    background-position: center center;
+}
+
+dialog {
+    display: flex;
+}
+
+svg {
+    height: 3rem;
+    fill: white;
+}
+
+#addBookDialog    {
+    opacity: 0;
+}
+
+#addBookDialog.show    {
+    opacity: 1;
+    transition: opacity 0.5s ease-in-out;
+}
+
+#addBookButton  {
+    display: inline-flex;
+    gap: 8px;
+    align-items: center;
+    font-size: 24px;
+    height: 10vh;
+    width: 15vw;
+    color: white;
+    background-color: #a21caf;
+    border-radius: 5px;
+}
+
+#libraryList    {
+    width: 80vw;
+    height: 80vh;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    grid-template-rows: repeat(10, minmax(240px, 1fr));
+    grid-gap: 15px;
+}
+
+.book   {
+    border-radius: 8px;
+    color: #f5f5f4;
+    box-shadow: 10px 10px 10px #cbd5e1;
+    grid-column: span 1;
+    grid-row: span 1;
+    padding: 1rem;
+}
+
+@keyframes flyIn {
+    0% {
+      transform: translateY(100%);
+      opacity: 0%;
+    }
+    75% {
+        transform: translateY(-12%);
+    }
+    100% {
+        transform: translateY(0);
+        opacity: 1;
+    }
+  }
+  
+  .fly-in {
+    animation: flyIn 0.65s ease-in-out;
+  }
